@@ -1,9 +1,19 @@
 <script lang="ts">
-  const canvas = document.querySelector("canvas") as HTMLCanvasElement;
-  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+  import { onMount } from "svelte";
 
-  ctx.fillStyle = "#9ca3af";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  let canvas: HTMLCanvasElement;
+  let ctx: CanvasRenderingContext2D;
+
+  onMount(() => {
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#9ca3af";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  });
 </script>
 
-<canvas width="600px" height="600px" class="border-8 border-indigo-600" />
+<canvas
+  bind:this={canvas}
+  width="600px"
+  height="600px"
+  class="border-8 border-indigo-600"
+/>
