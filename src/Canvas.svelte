@@ -4,7 +4,7 @@
 
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D;
-  let snakeHead = 20;
+  let snakeHead = 15;
   let snakeX: number;
   let snakeY: number;
   let snakeSpeed: number = 15;
@@ -64,21 +64,25 @@
       let key = event.key.toLowerCase();
       switch (key) {
         case "arrowright":
+        case "l":
           console.log("moving Right");
           velocityY = 0;
           velocityX = 1;
           break;
         case "arrowup":
+        case "k":
           console.log("moving Up");
           velocityX = 0;
           velocityY = -1;
           break;
         case "arrowdown":
+        case "j":
           console.log("moving Down");
           velocityX = 0;
           velocityY = 1;
           break;
         case "arrowleft":
+        case "h":
           console.log("moving Left");
           velocityY = 0;
           velocityX = -1;

@@ -20,5 +20,4 @@
       ? 'text-indigo-500 outline-indigo-700'
       : 'text-sky-500 outline-sky-700'} ">Play</button
   >
-  <h3 class="text-2xl text-slate-400">{play ? "Playing" : "Stop"}</h3>
 </div>
