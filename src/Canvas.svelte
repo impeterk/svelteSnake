@@ -59,7 +59,7 @@
     }
   }
 
-  function handleArrows(event: KeyboardEvent | TouchEvent) {
+  function handleKeys(event: KeyboardEvent | TouchEvent) {
     if (event instanceof KeyboardEvent) {
       let key = event.key.toLowerCase();
       switch (key) {
@@ -126,7 +126,7 @@
   }
 </script>
 
-<svelte:window on:keydown={handleArrows} />
+<svelte:window on:keydown={handleKeys} />
 <canvas
   bind:this={canvas}
   width="600px"
