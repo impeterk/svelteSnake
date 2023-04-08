@@ -17,8 +17,8 @@
     </a>
   </div>
   <h1 class="m-8 font-bold text-5xl text-gray-200">Vite + Svelte</h1>
+  <!-- <PlayButton /> -->
   <Canvas />
-  <PlayButton />
 </main>
 
 <style>
