@@ -7,8 +7,10 @@
   let snakeHead = 20;
   let snakeX: number;
   let snakeY: number;
-  let snakeSpeed: number = 5;
+  let snakeSpeed: number = 15;
   let playGame;
+  let velocityX = 0;
+  let velocityY = 0;
   function addToScore() {
     score.update((n) => n + 1);
   }
@@ -40,42 +42,54 @@
       }
     }
   }
-  function moveSnake(event: KeyboardEvent | TouchEvent) {
+  function moveSnake() {
+    snakeX += snakeHead * velocityX;
+    snakeY += snakeHead * velocityY;
+    if (snakeX >= canvas.width) {
+      snakeX = 0;
+    }
+    if (snakeY >= canvas.width) {
+      snakeY = 0;
+    }
+    if (snakeX < 0) {
+      snakeX = canvas.width - snakeHead;
+    }
+    if (snakeY < 0) {
+      snakeY = canvas.height - snakeHead;
+    }
+  }
+
+  function handleArrows(event: KeyboardEvent | TouchEvent) {
     if (event instanceof KeyboardEvent) {
       let key = event.key.toLowerCase();
       switch (key) {
         case "arrowright":
           console.log("moving Right");
-          snakeX += snakeHead;
+          velocityY = 0;
+          velocityX = 1;
           break;
         case "arrowup":
           console.log("moving Up");
-          snakeY -= snakeHead;
+          velocityX = 0;
+          velocityY = -1;
           break;
         case "arrowdown":
           console.log("moving Down");
-          snakeY += snakeHead;
+          velocityX = 0;
+          velocityY = 1;
           break;
         case "arrowleft":
           console.log("moving Left");
-          snakeX -= snakeHead;
+          velocityY = 0;
+          velocityX = -1;
+          break;
+        case " ":
+          handleClick();
           break;
         default:
           console.log(key);
           console.log("not pressing movement key");
           break;
-      }
-      if (snakeX >= canvas.width) {
-        snakeX = 0;
-      }
-      if (snakeY >= canvas.width) {
-        snakeY = 0;
-      }
-      if (snakeX < 0) {
-        snakeX = canvas.width - snakeHead;
-      }
-      if (snakeY < 0) {
-        snakeY = canvas.height - snakeHead;
       }
     }
   }
@@ -92,11 +106,14 @@
   }
 
   export async function gameLoop() {
+    let fps = 1000 / snakeSpeed;
     await tick();
     drawAssets();
-    moveSnake;
+    moveSnake();
     if (playGame) {
-      requestAnimationFrame(gameLoop);
+      setTimeout(() => {
+        gameLoop();
+      }, fps);
     }
   }
   function handleClick() {
@@ -105,17 +122,20 @@
   }
 </script>
 
-<svelte:window on:keydown={moveSnake} />
+<svelte:window on:keydown={handleArrows} />
 <canvas
   bind:this={canvas}
   width="600px"
   height="600px"
-  class="border-8 border-lime-600 bg-gray-900"
+  class="border-8 border-lime-600 rounded-lg bg-gray-900"
 />
 <slot />
-<button
-  on:click={handleClick}
-  class="py-4 px-8 text-2xl outline rounded-lg {playGame
-    ? 'text-indigo-500 outline-indigo-700'
-    : 'text-sky-500 outline-sky-700'} ">Play</button
->
+<div class="flex">
+  <button
+    on:click={handleClick}
+    class="py-4 px-8 text-2xl outline rounded-lg {playGame
+      ? 'text-indigo-500 outline-indigo-700'
+      : 'text-sky-500 outline-sky-700'} ">Play</button
+  >
+  <h3 class="text-2xl text-slate-400">{playGame ? "Playing" : "Stop"}</h3>
+</div>
