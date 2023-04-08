@@ -11,6 +11,10 @@
   let playGame;
   let velocityX = 0;
   let velocityY = 0;
+  let food = {
+    x: 0,
+    y: 0,
+  };
   function addToScore() {
     score.update((n) => n + 1);
   }
@@ -21,12 +25,14 @@
     ctx = canvas.getContext("2d");
     snakeX = canvas.width / 2;
     snakeY = canvas.height / 2;
+    spawnFood();
     drawAssets();
   });
 
   function drawAssets() {
     drawTiles();
     rectangle("#111827", snakeX, snakeY, snakeHead, snakeHead);
+    rectangle("#06b6d4", food["x"], food["y"], snakeHead, snakeHead);
   }
 
   function drawTiles() {
@@ -56,6 +62,10 @@
     }
     if (snakeY < 0) {
       snakeY = canvas.height - snakeHead;
+    }
+    if (snakeX == food["x"] && snakeY == food["y"]) {
+      addToScore();
+      spawnFood();
     }
   }
 
@@ -92,6 +102,14 @@
           break;
       }
     }
+  }
+
+  function spawnFood() {
+    function randomNumber(value: number) {
+      return Math.floor(Math.random() * value) * snakeHead;
+    }
+    food.x = randomNumber(canvas.width / snakeHead);
+    food.y = randomNumber(canvas.height / snakeHead);
   }
 
   function rectangle(
